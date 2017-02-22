@@ -334,8 +334,6 @@ object Prop {
    *  Import [[Prop.BooleanOperators]] to make the operators available. */
   class ExtendedBoolean(b: => Boolean) {
     /** See the documentation for [[org.scalacheck.Prop]] */
-    def ==>(p: => Prop) = Prop(b) ==> p
-    /** See the documentation for [[org.scalacheck.Prop]] */
     def :|(l: String) = Prop(b) :| l
     /** See the documentation for [[org.scalacheck.Prop]] */
     def |:(l: String) = l |: Prop(b)
