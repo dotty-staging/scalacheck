@@ -52,26 +52,22 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
 
   javacOptions += "-Xmx1024M",
 
+  scalacOptions += "-language:Scala2",
   scalacOptions ++= Seq(
-    "-language:Scala2",
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",
-    "-unchecked",
-    "-Xfatal-warnings",
-    "-Xlint",
-    "-Xfuture",
-    "-Yno-adapted-args",
-    "-Ywarn-dead-code",
-    "-Ywarn-inaccessible",
-    "-Ywarn-nullary-override",
-    "-Ywarn-nullary-unit",
-    "-Ywarn-numeric-widen") ++ {
-    scalaBinaryVersion.value match {
-      case "2.10" => Nil
-      case _ => Seq("-Ywarn-infer-any", "-Ywarn-unused-import")
-    }
-  },
+    "-unchecked"
+    // "-Xfatal-warnings",
+    // "-Xlint",
+    // "-Xfuture",
+    // "-Yno-adapted-args",
+    // "-Ywarn-dead-code",
+    // "-Ywarn-inaccessible",
+    // "-Ywarn-nullary-override",
+    // "-Ywarn-nullary-unit",
+    // "-Ywarn-numeric-widen"
+  ),
 
   scalacOptions in Test ~= (_ filterNot (_ == "-Xfatal-warnings")),
 
