@@ -10,8 +10,8 @@ lazy val isRelease = false
 lazy val travisCommit = Option(System.getenv().get("TRAVIS_COMMIT"))
 
 lazy val scalaVersionSettings = Seq(
-  scalaVersion := "2.12.1",
-  crossScalaVersions := Seq("2.10.6", "2.11.8", scalaVersion.value)
+  // scalaVersion := "2.12.1", // set by DottyPlugin
+  // crossScalaVersions := Seq("2.10.6", "2.11.8", scalaVersion.value)
 )
 
 lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
@@ -47,6 +47,8 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
   unmanagedSourceDirectories in Test += (baseDirectory in LocalRootProject).value / "src" / "test" / "scala",
 
   resolvers += "sonatype" at "https://oss.sonatype.org/content/repositories/releases",
+
+  resolvers += Resolver.typesafeIvyRepo("releases"),
 
   javacOptions += "-Xmx1024M",
 
@@ -129,3 +131,4 @@ lazy val jvm = project.in(file("jvm"))
   .settings(
     libraryDependencies += "org.scala-sbt" %  "test-interface" % "1.0"
   )
+  .enablePlugins(DottyPlugin)
