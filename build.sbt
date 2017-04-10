@@ -10,8 +10,8 @@ lazy val isRelease = false
 lazy val travisCommit = Option(System.getenv().get("TRAVIS_COMMIT"))
 
 lazy val scalaVersionSettings = Seq(
-  scalaVersion := "2.12.1",
-  crossScalaVersions := Seq("2.10.6", "2.11.8", scalaVersion.value)
+  // scalaVersion := "2.11.8", // set by DottyPlugin
+  // crossScalaVersions := Seq("2.10.6", "2.11.8", scalaVersion.value)
 )
 
 lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
@@ -48,27 +48,26 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
 
   resolvers += "sonatype" at "https://oss.sonatype.org/content/repositories/releases",
 
+  resolvers += Resolver.typesafeIvyRepo("releases"),
+
   javacOptions += "-Xmx1024M",
 
+  scalacOptions += "-language:Scala2",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",
-    "-unchecked",
-    "-Xfatal-warnings",
-    "-Xlint",
-    "-Xfuture",
-    "-Yno-adapted-args",
-    "-Ywarn-dead-code",
-    "-Ywarn-inaccessible",
-    "-Ywarn-nullary-override",
-    "-Ywarn-nullary-unit",
-    "-Ywarn-numeric-widen") ++ {
-    scalaBinaryVersion.value match {
-      case "2.10" => Nil
-      case _ => Seq("-Ywarn-infer-any", "-Ywarn-unused-import")
-    }
-  },
+    "-unchecked"
+    // "-Xfatal-warnings",
+    // "-Xlint",
+    // "-Xfuture",
+    // "-Yno-adapted-args",
+    // "-Ywarn-dead-code",
+    // "-Ywarn-inaccessible",
+    // "-Ywarn-nullary-override",
+    // "-Ywarn-nullary-unit",
+    // "-Ywarn-numeric-widen"
+  ),
 
   scalacOptions in Test ~= (_ filterNot (_ == "-Xfatal-warnings")),
 
@@ -129,3 +128,4 @@ lazy val jvm = project.in(file("jvm"))
   .settings(
     libraryDependencies += "org.scala-sbt" %  "test-interface" % "1.0"
   )
+  .enablePlugins(DottyPlugin)
