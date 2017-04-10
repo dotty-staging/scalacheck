@@ -1,7 +1,6 @@
 language: scala
-branches:
-  only:
-    - master
+script:
+  - sbt jvm/compile "last jvm/compile:compileIncremental"
 jdk:
   - oraclejdk8
 env:
