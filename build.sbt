@@ -53,6 +53,7 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
   javacOptions += "-Xmx1024M",
 
   scalacOptions ++= Seq(
+    "-language:Scala2",
     "-deprecation",
     "-encoding", "UTF-8",
     "-feature",

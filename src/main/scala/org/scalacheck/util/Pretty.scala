@@ -44,7 +44,7 @@ object Pretty {
 
   def pretty[T](t: T)(implicit ev: T => Pretty): String = pretty(t, defaultParams)
 
-  implicit def strBreak(s1: String): AnyRef { def /(s2: String): String } = new {
+  implicit class XtensionStrBreak(s1: String) {
     def /(s2: String) = if(s2 == "") s1 else s1+"\n"+s2
   }
 
