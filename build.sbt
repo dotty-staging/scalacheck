@@ -10,7 +10,7 @@ lazy val isRelease = false
 lazy val travisCommit = Option(System.getenv().get("TRAVIS_COMMIT"))
 
 lazy val scalaVersionSettings = Seq(
-  scalaVersion := "2.11.8" // set by DottyPlugin
+  // scalaVersion := "2.11.8", // set by DottyPlugin
   // crossScalaVersions := Seq("2.10.6", "2.11.8", scalaVersion.value)
 )
 
@@ -131,4 +131,4 @@ lazy val jvm = project.in(file("jvm"))
   .settings(
     libraryDependencies += "org.scala-sbt" %  "test-interface" % "1.0"
   )
-  // .enablePlugins(DottyPlugin)
+  .enablePlugins(DottyPlugin)
