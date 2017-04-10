@@ -357,7 +357,7 @@ object Prop {
   // implicit def BooleanOperators(b: => Boolean): Prop.ExtendedBoolean = new ExtendedBoolean(b)
 
   /** Implicit conversion of Boolean values to Prop values. */
-  // implicit def propBoolean(b: Boolean): Prop = Prop(b)
+  implicit def propBoolean(b: Boolean): Prop = Prop(b)
 
 
   // Private support functions
