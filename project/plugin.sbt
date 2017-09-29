@@ -8,3 +8,5 @@ val scalaJSVersion =
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
 scalacOptions += "-deprecation"
+
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.1.5")
