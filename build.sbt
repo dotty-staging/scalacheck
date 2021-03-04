@@ -147,7 +147,7 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
   },
 
   Compile / unmanagedSourceDirectories += {
-    val s = if (scalaMajorVersion.value >= 13 || isDotty.value) "+" else "-"
+    val s = if (scalaMajorVersion.value >= 13 || scalaVersion.value.startsWith("3")) "+" else "-"
     (LocalRootProject / baseDirectory).value / "src" / "main" / s"scala-2.13$s"
   },
 
@@ -171,7 +171,7 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
         "-Ywarn-unused:-patvars,-implicits,-locals,-privates,-explicits"))
 
     val n = scalaMajorVersion.value
-    if (isDotty.value)
+    if (scalaVersion.value.startsWith("3"))
       Seq("-language:Scala2")
     else
       groups.flatMap(f => f(n))
@@ -185,7 +185,7 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
 
   Compile / doc / sources := {
     val old = (Compile / doc / sources).value
-    if (isDotty.value)
+    if (scalaVersion.value.startsWith("3"))
       Seq()
     else
       old
@@ -197,7 +197,7 @@ lazy val sharedSettings = MimaSettings.settings ++ scalaVersionSettings ++ Seq(
   mimaReportSignatureProblems := true,
   mimaPreviousArtifacts := {
     // TODO: re-enable MiMa for 2.14 once there is a final version
-    if (scalaMajorVersion.value == 14 || isDotty.value) Set()
+    if (scalaMajorVersion.value == 14 || scalaVersion.value.startsWith("3")) Set()
     else Set("org.scalacheck" %%% "scalacheck" % "1.14.3")
   },
 
@@ -245,7 +245,7 @@ lazy val js = project.in(file("js"))
   .settings(
     Global / scalaJSStage := FastOptStage,
     libraryDependencies +=
-      ("org.scala-js" %% "scalajs-test-interface" % scalaJSVersion).withDottyCompat(scalaVersion.value),
+      ("org.scala-js" %% "scalajs-test-interface" % scalaJSVersion).cross(CrossVersion.for3Use2_13),
 
     scalacOptions ++= {
       if (scalaVersion.value == "3.0.0-M1") Seq("-Yskip:explicitJSClasses") else Nil
@@ -257,12 +257,12 @@ lazy val jvm = project.in(file("jvm"))
   .settings(sharedSettings: _*)
   .settings(
     Compile / doc / sources := {
-      if (isDotty.value) Seq()
+      if (scalaVersion.value.startsWith("3")) Seq()
       else (Compile / doc/ sources).value
     },
     Test / fork := {
       // Serialization issue in 2.13 and later
-      scalaMajorVersion.value == 13 || isDotty.value // ==> true
+      scalaMajorVersion.value == 13 || scalaVersion.value.startsWith("3") // ==> true
       // else ==> false
     },
     libraryDependencies += "org.scala-sbt" %  "test-interface" % "1.0"
