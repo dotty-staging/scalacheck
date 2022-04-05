@@ -218,8 +218,8 @@ trait Commands {
     Prop.forAll(actions(threadCount, maxParComb)) { as =>
       try {
         val sutId = suts.synchronized {
-          val initSuts = for((state,None) <- suts.values) yield state
-          val runningSuts = for((_,Some(sut)) <- suts.values) yield sut
+          val initSuts = for(case (state,None) <- suts.values) yield state
+          val runningSuts = for(case (_,Some(sut)) <- suts.values) yield sut
           if (canCreateNewSut(as.s, initSuts, runningSuts)) {
             val sutId = new AnyRef
             suts += (sutId -> (as.s -> None))
