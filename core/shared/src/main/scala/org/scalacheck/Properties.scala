@@ -26,14 +26,15 @@ import util.ConsoleReporter
  *  }}}
  */
 @Platform.EnableReflectiveInstantiation
-class Properties(val name: String) {
+class Properties(_name: String) {
+  val name = _name
 
   private val props = new scala.collection.mutable.ListBuffer[(String,Prop)]
   private var frozen = false
 
   /**
    * Customize the parameters specific to this class.
-   * 
+   *
    * After the command-line (either [[main]] above or sbt) modifies
    * the default parameters, this method is called with the current
    * state of the parameters.  This method must then return
