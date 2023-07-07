@@ -35,18 +35,18 @@ private[scalacheck] trait CmdLineParser {
 
   val opts: Set[Opt[_]]
 
-  private def getOpt(s: String) = {
+  private def getOpt(s: String|Null) = {
     if(s == null || s.length == 0 || s.charAt(0) != '-') None
     else opts.find(_.names.contains(s.drop(1)))
   }
 
   private def getStr(s: String) = Some(s)
 
-  private def getInt(s: String) =
+  private def getInt(s: String|Null) =
     if (s != null && s.length > 0 && s.forall(_.isDigit)) Some(s.toInt)
     else None
 
-  private def getFloat(s: String) =
+  private def getFloat(s: String|Null) =
     if (s != null && s.matches("[0987654321]+\\.?[0987654321]*")) Some(s.toFloat)
     else None
 

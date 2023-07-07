@@ -137,7 +137,9 @@ private abstract class ScalaCheckRunner extends Runner {
             case _: Test.PropException => Status.Error
           }
           val throwable = result.status match {
-            case Test.PropException(_, e, _) => new OptionalThrowable(e)
+            case Test.PropException(_, e, _) =>
+              if(e == null) new OptionalThrowable()
+              else new OptionalThrowable(e)
             case _: Test.Failed => new OptionalThrowable(
               new Exception(pretty(result, Params(0)))
             )

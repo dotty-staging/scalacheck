@@ -32,7 +32,7 @@ object Pretty {
 
   def apply(f: Params => String): Pretty = new Pretty { def apply(p: Params) = f(p) }
 
-  def pretty[T](t: T, prms: Params)(implicit ev: T => Pretty): String = {
+  def pretty[T](t: T, prms: Params)(implicit ev: T => (Pretty|Null)): String = {
     val p = ev(t) match {
       case null => prettyAny(null)
       case p => p
@@ -40,7 +40,7 @@ object Pretty {
     p(prms)
   }
 
-  def pretty[T](t: T)(implicit ev: T => Pretty): String = pretty(t, defaultParams)
+  def pretty[T](t: T)(implicit ev: T => (Pretty|Null)): String = pretty(t, defaultParams)
 
   private[this] implicit class StrBreak(val s1: String) extends AnyVal {
     def /(s2: String) = if(s2 == "") s1 else s1+"\n"+s2
